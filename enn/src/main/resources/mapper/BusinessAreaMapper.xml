@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.enn.commodity.synergistic.dao.BusinessAreaDao" >  
+ <select id="SelectBusinessAreaByObject" resultType="com.enn.commodity.synergistic.entity.BusinessArea">
+     SELECT ID,name,comments,channelName,chaincodePackageName,chaincodePackageVersion,chaincodeDeployedName,chaincodeDeployedVersion,lastDeployedDateTime
+     FROM businessarea
+     WHERE 1=1
+     <if test="name!=null and name!=''" >
+     and name  LIKE CONCAT(CONCAT('%', #{name}), '%')
+     </if>
+     <if test="ID!=null and ID!=''" >
+     and ID=#{ID}
+     </if>
+    <if test="comments!=null and comments!=''" >
+     and comments=#{comments}
+     </if>
+    <if test="channelName!=null and channelName!=''" >
+     and channelName=#{channelName}
+     </if>
+     <if test="chaincodePackageName!=null and chaincodePackageName!=''" >
+     and chaincodePackageName=#{chaincodePackageName}
+     </if>
+     <if test="chaincodePackageVersion!=null and chaincodePackageVersion!=''" >
+     and chaincodePackageVersion=#{chaincodePackageVersion}
+     </if>
+     <if test="chaincodeDeployedName!=null and chaincodeDeployedName!=''" >
+     and chaincodeDeployedName=#{chaincodeDeployedName}
+     </if>
+     <if test="chaincodeDeployedVersion!=null and chaincodeDeployedVersion!=''" >
+     and chaincodeDeployedVersion=#{chaincodeDeployedVersion}
+     </if>
+     <if test="lastDeployedDateTime!=null and lastDeployedDateTime!=''" >
+     and lastDeployedDateTime=#{lastDeployedDateTime}
+     </if>
+  </select>
+ 
+ <insert id="CreateBusinessArea"  keyColumn="ID" parameterType="com.enn.commodity.synergistic.entity.BusinessArea">
+    insert into businessarea 
+    (ID,name,comments,channelName,chaincodePackageName,chaincodePackageVersion,chaincodeDeployedName,chaincodeDeployedVersion,lastDeployedDateTime) 
+    values
+    (#{ID},#{name},#{comments},#{channelName},#{chaincodePackageName},#{chaincodePackageVersion},#{chaincodeDeployedName},#{chaincodeDeployedVersion},#{lastDeployedDateTime})
+  </insert>
+ 
+ <update id="UpdateBusinessArea" parameterType="com.enn.commodity.synergistic.entity.BusinessArea">
+     UPDATE businessarea
+     <set>
+       <if test="name!=null">name=#{name},</if>
+       <if test="comments!=null">comments=#{comments},</if>
+       <if test="channelName!=null">channelName=#{channelName},</if>
+       <if test="chaincodePackageName!=null">chaincodePackageName=#{chaincodePackageName},</if>
+       <if test="chaincodePackageVersion!=null">chaincodePackageVersion=#{chaincodePackageVersion},</if>
+       <if test="chaincodeDeployedName!=null">chaincodeDeployedName=#{chaincodeDeployedName},</if>
+       <if test="chaincodeDeployedVersion!=null">chaincodeDeployedVersion=#{chaincodeDeployedVersion},</if>
+       <if test="lastDeployedDateTime!=null">lastDeployedDateTime=#{lastDeployedDateTime}</if>
+     </set>
+     WHERE ID=#{ID}
+  </update>
+ 
+ <delete id="DeleteBusinessArea" parameterType="com.enn.commodity.synergistic.entity.BusinessArea">
+     DELETE FROM
+     businessarea
+     WHERE
+     ID=#{ID}
+  </delete>
+ 
+  <!-- <select id="queryAresById" resultType="com.yaw.demo.entity.Area">
+     SELECT areaId,areaName,priority,createTime,lastEditTime
+     FROM area
+     WHERE areaId=#{areaId}
+  </select>
+  
+  <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="areaId" parameterType="com.yaw.demo.entity.Area">
+    insert into area (areaName,priority,createTime,lastEditTime) values(#{areaName},#{priority},#{createTime},#{lastEditTime})
+  </insert>
+  
+  
+  
+  <delete id="deleteArea">
+     DELETE FROM
+     area
+     WHERE
+     areaId=#{areaId}
+  </delete> -->
+</mapper>

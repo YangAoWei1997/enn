@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.enn.commodity.synergistic.dao.QueuingDao" >  
+ <select id="QueryQueuingInfo" resultType="com.enn.commodity.synergistic.entity.Queuing">
+     SELECT infoid,listcount,orgid,dataSourceId,dataSourceName,goodsType
+     FROM queuing
+     WHERE orgid = #{orgid}
+    
+  </select>
+ 
+ <insert id="SaveQueuingInfo" useGeneratedKeys="true" keyProperty="infoid" keyColumn="infoid" parameterType="com.enn.commodity.synergistic.entity.Queuing">
+    insert into queuing (listcount,orgid,dataSourceId,dataSourceName,goodsType) values(#{listcount},#{orgid},#{dataSourceId},#{dataSourceName},#{goodsType})
+  </insert>
+ 
+ <update id="ModifyQueuingInfo" parameterType="com.enn.commodity.synergistic.entity.Queuing">
+     UPDATE queuing
+     <set>
+       <if test="listcount!=null">listcount=#{listcount},</if>
+     </set>
+     WHERE orgid=#{orgid}
+  </update>
+  <!-- <select id="queryAresById" resultType="com.yaw.demo.entity.Area">
+     SELECT areaId,areaName,priority,createTime,lastEditTime
+     FROM area
+     WHERE areaId=#{areaId}
+  </select>
+  
+  <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="areaId" parameterType="com.yaw.demo.entity.Area">
+    insert into area (areaName,priority,createTime,lastEditTime) values(#{areaName},#{priority},#{createTime},#{lastEditTime})
+  </insert>
+  
+  <update id="updateArea" parameterType="com.yaw.demo.entity.Area">
+     UPDATE area
+     <set>
+       <if test="areaName!=null">areaName=#{areaName},</if>
+       <if test="priority!=null">priority=#{priority},</if>
+       <if test="lastEditTime!=null">lastEditTime=#{lastEditTime}</if>
+     </set>
+     WHERE areaId=#{areaId}
+  </update>
+  
+  <delete id="deleteArea">
+     DELETE FROM
+     area
+     WHERE
+     areaId=#{areaId}
+  </delete> -->
+</mapper>

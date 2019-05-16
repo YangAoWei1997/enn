@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.enn.commodity.synergistic.dao.RoleDao" >  
+ <select id="SelectRolesByObject" resultType="com.enn.commodity.synergistic.entity.Role">
+     SELECT roleindex,roleId,rolename,organizationId,organizationName,roledetail,userId
+     FROM role
+      WHERE 1=1
+     <if test="rolename!=null and rolename!=''" >
+     and rolename=#{rolename}
+     </if>
+     <if test="organizationName!=null and organizationName!=''" >
+     and organizationName=#{organizationName}
+     </if>
+     <if test="organizationId!=null and organizationId!=''" >
+     and organizationId=#{organizationId}
+     </if>
+     <if test="roleId!=null and roleId!=''" >
+     and roleId=#{roleId}
+     </if>
+    
+  </select>
+ 
+ 
+ 
+ <insert id="CreateRole" useGeneratedKeys="true" keyProperty="roleindex" keyColumn="roleindex" parameterType="com.enn.commodity.synergistic.entity.Role">
+    insert into role 
+    (roleId,rolename,organizationId,organizationName,roledetail,userId) 
+    values
+    (#{roleId},#{rolename},#{organizationId},#{organizationName},#{roledetail},#{userId})
+  </insert>
+  
+  <update id="UpdateRole" parameterType="com.enn.commodity.synergistic.entity.Role">
+     UPDATE role
+     <set>
+       <if test="rolename!=null and rolename!=''">rolename=#{rolename},</if>
+       <if test="roledetail!=null and roledetail!=''">roledetail=#{roledetail}</if>
+     </set>
+     WHERE 1=2
+     <if test="userId!=null and userId!='' and organizationId!=null and organizationId!=''" >
+     or (roleId=#{roleId} and organizationId=#{organizationId})
+     </if>
+  </update>
+  
+  <insert id="RoleAuthorization" useGeneratedKeys="true" keyProperty="relindex" keyColumn="relindex">
+   INSERT INTO role_function (roleindex,funindex) 
+   VALUES
+   <foreach collection="functionList" index="index" item="funid" separator=",">
+          ((SELECT roleindex FROM role WHERE roleId=#{roleId}), (SELECT funindex FROM `function` WHERE funid=#{funid,jdbcType=INTEGER}) )
+    </foreach>
+  </insert>
+  
+  <!-- <select id="queryAresById" resultType="com.yaw.demo.entity.Area">
+     SELECT areaId,areaName,priority,createTime,lastEditTime
+     FROM area
+     WHERE areaId=#{areaId}
+  </select>
+  
+  <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="areaId" parameterType="com.yaw.demo.entity.Area">
+    insert into area (areaName,priority,createTime,lastEditTime) values(#{areaName},#{priority},#{createTime},#{lastEditTime})
+  </insert>
+  
+  <update id="updateArea" parameterType="com.yaw.demo.entity.Area">
+     UPDATE area
+     <set>
+       <if test="areaName!=null">areaName=#{areaName},</if>
+       <if test="priority!=null">priority=#{priority},</if>
+       <if test="lastEditTime!=null">lastEditTime=#{lastEditTime}</if>
+     </set>
+     WHERE areaId=#{areaId}
+  </update>
+  
+  <delete id="deleteArea">
+     DELETE FROM
+     area
+     WHERE
+     areaId=#{areaId}
+  </delete> -->
+</mapper>

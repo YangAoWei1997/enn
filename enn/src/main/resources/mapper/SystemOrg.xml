@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.enn.commodity.synergistic.dao.SystemOrgDao" >  
+ <select id="SelectSystemOrgByObject" resultType="com.enn.commodity.synergistic.entity.SystemOrg">
+     SELECT ID,name,comments,IP,port,orgID,orgName
+     FROM systemorg
+     WHERE 1=1
+     <if test="name!=null and name!=''" >
+     and name  LIKE CONCAT(CONCAT('%', #{name}), '%')
+     </if>
+     <if test="ID!=null and ID!=''" >
+     and ID=#{ID}
+     </if>
+    <if test="comments!=null and comments!=''" >
+     and comments=#{comments}
+     </if>
+    <if test="IP!=null and IP!=''" >
+     and IP=#{IP}
+     </if>
+     <if test="port!=null and port!=''" >
+     and port=#{port}
+     </if>
+     <if test="orgID!=null and orgID!=''" >
+     and orgID=#{orgID}
+     </if>
+     <if test="orgName!=null and orgName!=''" >
+     and orgName=#{orgName}
+     </if>
+     
+  </select>
+ 
+ <insert id="CreateSystemOrg"  keyColumn="ID" parameterType="com.enn.commodity.synergistic.entity.SystemOrg">
+    insert into systemorg 
+    (ID,name,comments,IP,port,orgID,orgName) 
+    values
+    (#{ID},#{name},#{comments},#{IP},#{port},#{orgID},#{orgName})
+  </insert>
+ 
+ <update id="UpdateSystemOrg" parameterType="com.enn.commodity.synergistic.entity.SystemOrg">
+     UPDATE systemorg
+     <set>
+       <if test="name!=null">name=#{name},</if>
+       <if test="comments!=null">comments=#{comments},</if>
+       <if test="IP!=null">IP=#{IP},</if>
+       <if test="port!=null">port=#{port},</if>
+       <if test="orgID!=null">orgID=#{orgID},</if>
+       <if test="orgName!=null">orgName=#{orgName},</if>
+     </set>
+     WHERE ID=#{ID}
+  </update>
+ 
+ <delete id="DeleteSystemOrg" parameterType="com.enn.commodity.synergistic.entity.SystemOrg">
+     DELETE FROM
+     systemorg
+     WHERE
+     ID=#{ID}
+  </delete>
+ 
+  <!-- <select id="queryAresById" resultType="com.yaw.demo.entity.Area">
+     SELECT areaId,areaName,priority,createTime,lastEditTime
+     FROM area
+     WHERE areaId=#{areaId}
+  </select>
+  
+  <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="areaId" parameterType="com.yaw.demo.entity.Area">
+    insert into area (areaName,priority,createTime,lastEditTime) values(#{areaName},#{priority},#{createTime},#{lastEditTime})
+  </insert>
+  
+  
+  
+  <delete id="deleteArea">
+     DELETE FROM
+     area
+     WHERE
+     areaId=#{areaId}
+  </delete> -->
+</mapper>

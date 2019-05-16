@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.enn.commodity.synergistic.dao.PackingListDao" >  
+
+  <resultMap type="com.enn.commodity.synergistic.entity.PackingList" id="packinglistResultMap">
+		<id property="id" column="packinglist_id"/>
+		<result property="version" column="packinglist_version"/>
+		<result property="name" column="packinglist_name"/>
+		<result property="comments" column="packinglist_comments"/>
+		<result property="organizationId" column="packinglist_organizationId"/>
+		<result property="organizationName" column="packinglist_organizationName"/>
+		<result property="userId" column="packinglist_userId"/>
+		<result property="userName" column="packinglist_userName"/>
+		<result property="privateId" column="packinglist_privateId"/>
+		<result property="dataType" column="packinglist_dataType"/>
+		<result property="goodsType" column="packinglist_goodsType"/>
+		<result property="dataSourceId" column="packinglist_dataSourceId"/>
+		<result property="dataSourceName" column="packinglist_dataSourceName"/>
+		<result property="buyerId" column="packinglist_buyerId"/>
+		<result property="buyerName" column="packinglist_buyerName"/>
+		<result property="sellerId" column="packinglist_sellerId"/>
+		<result property="sellerName" column="packinglist_sellerName"/>
+		<result property="productId" column="packinglist_productId"/>
+		<result property="productName" column="packinglist_productName"/>
+		<result property="quantity" column="packinglist_quantity"/>
+		<result property="quantityUnit" column="packinglist_quantityUnit"/>
+		<result property="plateNo" column="packinglist_plateNo"/>
+		<result property="billOfLadingId" column="packinglist_billOfLadingId"/>
+		<result property="source" column="packinglist_source"/>
+		<result property="destination" column="packinglist_destination"/>
+		<result property="date" column="packinglist_date"/>
+		<result property="relatedPONumber" column="packinglist_relatedPONumber"/>
+		<result property="packingType" column="packinglist_packingType"/>
+		<result property="carrierName" column="packinglist_carrierName"/>
+		<result property="carrierId" column="packinglist_carrierId"/>
+		<result property="leavefirsttime" column="packinglist_leavefirsttime"/>
+		<result property="leavefirstweight" column="packinglist_leavefirstweight"/>
+		<result property="leavesecondtime" column="packinglist_leavesecondtime"/>
+		<result property="leavesecondweight" column="packinglist_leavesecondweight"/>
+		<result property="leavedDate" column="packinglist_leavedDate"/>
+		<result property="reachedDate" column="packinglist_reachedDate"/>
+		<result property="driverName" column="packinglist_driverName"/>
+		<result property="driverId" column="packinglist_driverId"/>
+		<result property="weight" column="packinglist_weight"/>
+		<result property="emptyCarWeight" column="packinglist_emptyCarWeight"/>
+		<result property="carWeight" column="packinglist_carWeight"/>
+		<result property="qualityId" column="packinglist_qualityId"/>
+		<result property="salesPONumber" column="packinglist_salesPONumber"/>
+		<result property="purchasePONumber" column="packinglist_purchasePONumber"/>
+
+		<!-- association：配置的一对一属性 -->
+		<!-- property：名字
+			 javaType：类型
+		 -->
+		<association property="qualityinfo" resultMap="qualityinfoResultMap"/>
+		
+	</resultMap>
+
+
+
+        <resultMap type="com.enn.commodity.synergistic.entity.QualityInfo" id="qualityinfoResultMap">
+            <id property="id" column="qualityinfo_id"/>
+			<result property="version" column="qualityinfo_version"/>
+			<result property="name" column="qualityinfo_name"/>
+			<result property="comments" column="qualityinfo_comments"/>
+			<result property="organizationId" column="qualityinfo_organizationId"/>
+			<result property="organizationName" column="qualityinfo_organizationName"/>
+			<result property="userId" column="qualityinfo_userId"/>
+			<result property="userName" column="qualityinfo_userName"/>
+			<result property="privateId" column="qualityinfo_privateId"/>
+			<result property="dataType" column="qualityinfo_dataType"/>
+			<result property="goodsType" column="qualityinfo_goodsType"/>
+			<result property="dataSourceId" column="qualityinfo_dataSourceId"/>
+			<result property="dataSourceName" column="qualityinfo_dataSourceName"/>
+			<result property="validator" column="qualityinfo_validator"/>
+			<result property="validatorName" column="qualityinfo_validatorName"/>
+			<result property="qualityDate" column="qualityinfo_qualityDate"/>
+			<result property="serialNumber" column="qualityinfo_serialNumber"/>
+			<result property="quality" column="qualityinfo_quality"/>
+			<result property="productId" column="qualityinfo_productId"/>
+			<result property="plateNo" column="qualityinfo_plateNo"/>
+			<result property="orgname" column="qualityinfo_orgname"/>
+			<result property="productName" column="qualityinfo_productName"/>
+			<result property="qualityType" column="qualityinfo_qualityType"/>
+			<result property="orgId" column="qualityinfo_orgId"/>
+			<result property="reportQualityDate" column="qualityinfo_reportQualityDate"/>
+            <result property="source" column="qualityinfo_source"/>
+        </resultMap>
+
+
+        
+
+ <select id="SelectPackingListByObject" resultMap="packinglistResultMap" parameterType="com.enn.commodity.synergistic.entity.PackingList">
+     SELECT *
+     FROM packinglist p
+     	LEFT JOIN qualityinfo q
+			ON p.packinglist_qualityId = q.qualityinfo_id
+     WHERE 1=1
+     <if test="id!=null and id!=''" >
+     and p.packinglist_id=#{id}
+    </if>
+    <if test="name!=null and name!=''" >
+     and p.packinglist_name=#{name}
+    </if>
+    <if test="version!=null and version!=''" >
+     and p.packinglist_version=#{version}
+    </if>
+    <if test="comments!=null and comments!=''" >
+     and p.packinglist_comments=#{comments}
+    </if>
+    <if test="organizationId!=null and organizationId!=''" >
+     and p.packinglist_organizationId=#{organizationId}
+    </if>
+    <if test="organizationName!=null and organizationName!=''" >
+     and p.packinglist_organizationName=#{organizationName}
+    </if>
+    <if test="userId!=null and userId!=''" >
+     and p.packinglist_userId=#{userId}
+    </if>
+    <if test="userName!=null and userName!=''" >
+     and p.packinglist_userName=#{userName}
+    </if>
+    <if test="privateId!=null and privateId!=''" >
+     and p.packinglist_privateId=#{privateId}
+    </if>
+    <if test="dataType!=null and dataType!=''" >
+     and p.packinglist_dataType=#{dataType}
+    </if>
+    <if test="goodsType!=null and goodsType!=''" >
+     and p.packinglist_goodsType=#{goodsType}
+    </if>
+    <if test="dataSourceId!=null and dataSourceId!=''" >
+     and p.packinglist_dataSourceId=#{dataSourceId}
+    </if>
+    <if test="dataSourceName!=null and dataSourceName!=''" >
+     and p.packinglist_dataSourceName=#{dataSourceName}
+    </if>
+    <if test="buyerId!=null and buyerId!=''" >
+     and p.packinglist_buyerId=#{buyerId}
+    </if>
+    <if test="sellerId!=null and sellerId!=''" >
+     or p.packinglist_sellerId=#{sellerId}
+    </if>
+    <if test="buyerName!=null and buyerName!=''" >
+     and p.packinglist_buyerName=#{buyerName}
+    </if>
+    
+    <if test="sellerName!=null and sellerName!=''" >
+     and p.packinglist_sellerName=#{sellerName}
+    </if>
+    <if test="productId!=null and productId!=''" >
+     and p.packinglist_productId=#{productId}
+    </if>
+    <if test="productName!=null and productName!=''" >
+     and p.packinglist_productName=#{productName}
+    </if>
+    <if test="quantity!=null and quantity!=''" >
+     and p.packinglist_quantity=#{quantity}
+    </if>
+    <if test="quantityUnit!=null and quantityUnit!=''" >
+     and p.packinglist_quantityUnit=#{quantityUnit}
+    </if>
+    <if test="plateNo!=null and plateNo!=''" >
+     and p.packinglist_plateNo=#{plateNo}
+    </if>
+    <if test="billOfLadingId!=null and billOfLadingId!=''" >
+     and p.packinglist_billOfLadingId=#{billOfLadingId}
+    </if>
+    <if test="source!=null and source!=''" >
+     and p.packinglist_source=#{source}
+    </if>
+    <if test="destination!=null and destination!=''" >
+     and p.packinglist_destination=#{destination}
+    </if>
+    <if test="date!=null and date!=''" >
+     and p.packinglist_date=#{date}
+    </if>
+    <if test="relatedPONumber!=null and relatedPONumber!=''" >
+     and p.packinglist_relatedPONumber=#{relatedPONumber}
+    </if>
+    <if test="packingType!=null and packingType!=''" >
+     and p.packinglist_packingType=#{packingType}
+    </if>
+    <if test="carrierName!=null and carrierName!=''" >
+     and p.packinglist_carrierName=#{carrierName}
+    </if>
+    <if test="carrierId!=null and carrierId!=''" >
+     and p.packinglist_carrierId=#{carrierId}
+    </if>
+    <if test="leavefirsttime!=null and leavefirsttime!=''" >
+     and p.packinglist_leavefirsttime=#{leavefirsttime}
+    </if>
+    <if test="leavefirstweight!=null and leavefirstweight!=''" >
+     and p.packinglist_leavefirstweight=#{leavefirstweight}
+    </if>
+    <if test="leavesecondtime!=null and leavesecondtime!=''" >
+     and p.packinglist_leavesecondtime=#{leavesecondtime}
+    </if>
+    <if test="leavesecondweight!=null and leavesecondweight!=''" >
+     and p.packinglist_leavesecondweight=#{leavesecondweight}
+    </if>
+    <if test="leavedDate!=null and leavedDate!=''" >
+     and p.packinglist_leavedDate=#{leavedDate}
+    </if>
+    <if test="reachedDate!=null and reachedDate!=''" >
+     and p.packinglist_reachedDate=#{reachedDate}
+    </if>
+    <if test="driverName!=null and driverName!=''" >
+     and p.packinglist_driverName=#{driverName}
+    </if>
+    <if test="driverId!=null and driverId!=''" >
+     and p.packinglist_driverId=#{driverId}
+    </if>
+    <if test="weight!=null and weight!=''" >
+     and p.packinglist_weight=#{weight}
+    </if>
+    <if test="emptyCarWeight!=null and emptyCarWeight!=''" >
+     and p.packinglist_emptyCarWeight=#{emptyCarWeight}
+    </if>
+    <if test="carWeight!=null and carWeight!=''" >
+     and p.packinglist_carWeight=#{carWeight}
+    </if>
+    <if test="qualityId!=null and qualityId!=''" >
+     and p.packinglist_qualityId=#{qualityId}
+    </if>
+    <if test="salesPONumber!=null and salesPONumber!=''" >
+     and p.packinglist_salesPONumber=#{salesPONumber}
+    </if>
+    <if test="purchasePONumber!=null and purchasePONumber!=''" >
+     and p.packinglist_purchasePONumber=#{purchasePONumber}
+    </if>
+
+
+  </select>
+ 
+ 
+ <select id="SelectPackingListByObjectIn" resultMap="packinglistResultMap" parameterType="java.util.Map">
+     SELECT *
+     FROM packinglist p
+     	LEFT JOIN qualityinfo q
+			ON p.packinglist_qualityId = q.qualityinfo_id
+     WHERE 1=1
+     <if test="productName!=null and productName!=''" >
+     and p.packinglist_productName in
+     <foreach collection="productName.split(',')" item="pn" index="index" open="(" close=")" separator=",">
+     '${pn}'
+     </foreach>
+     </if>
+     <if test="id!=null and id!=''" >
+     and p.packinglist_id=#{id}
+    </if>
+    <if test="name!=null and name!=''" >
+     and p.packinglist_name=#{name}
+    </if>
+    <if test="version!=null and version!=''" >
+     and p.packinglist_version=#{version}
+    </if>
+    <if test="comments!=null and comments!=''" >
+     and p.packinglist_comments=#{comments}
+    </if>
+    <if test="organizationId!=null and organizationId!=''" >
+     and p.packinglist_organizationId=#{organizationId}
+    </if>
+    <if test="organizationName!=null and organizationName!=''" >
+     and p.packinglist_organizationName=#{organizationName}
+    </if>
+    <if test="userId!=null and userId!=''" >
+     and p.packinglist_userId=#{userId}
+    </if>
+    <if test="userName!=null and userName!=''" >
+     and p.packinglist_userName=#{userName}
+    </if>
+    <if test="privateId!=null and privateId!=''" >
+     and p.packinglist_privateId=#{privateId}
+    </if>
+    <if test="dataType!=null and dataType!=''" >
+     and p.packinglist_dataType=#{dataType}
+    </if>
+    <if test="goodsType!=null and goodsType!=''" >
+     and p.packinglist_goodsType=#{goodsType}
+    </if>
+    <if test="dataSourceId!=null and dataSourceId!=''" >
+     and p.packinglist_dataSourceId=#{dataSourceId}
+    </if>
+    <if test="dataSourceName!=null and dataSourceName!=''" >
+     and p.packinglist_dataSourceName=#{dataSourceName}
+    </if>
+    <if test="buyerId!=null and buyerId!=''" >
+     and (p.packinglist_buyerId=#{buyerId}
+    </if>
+    <if test="sellerId!=null and sellerId!=''" >
+     or p.packinglist_sellerId=#{sellerId})
+    </if>
+    <if test="buyerName!=null and buyerName!=''" >
+     and p.packinglist_buyerName=#{buyerName}
+    </if>
+    
+    <if test="sellerName!=null and sellerName!=''" >
+     and p.packinglist_sellerName=#{sellerName}
+    </if>
+    <if test="productId!=null and productId!=''" >
+     and p.packinglist_productId=#{productId}
+    </if>
+    
+    <if test="quantity!=null and quantity!=''" >
+     and p.packinglist_quantity=#{quantity}
+    </if>
+    <if test="quantityUnit!=null and quantityUnit!=''" >
+     and p.packinglist_quantityUnit=#{quantityUnit}
+    </if>
+    <if test="plateNo!=null and plateNo!=''" >
+     and p.packinglist_plateNo=#{plateNo}
+    </if>
+    <if test="billOfLadingId!=null and billOfLadingId!=''" >
+     and p.packinglist_billOfLadingId=#{billOfLadingId}
+    </if>
+    <if test="source!=null and source!=''" >
+     and p.packinglist_source=#{source}
+    </if>
+    <if test="destination!=null and destination!=''" >
+     and p.packinglist_destination=#{destination}
+    </if>
+    <if test="date!=null and date!=''" >
+     and p.packinglist_date=#{date}
+    </if>
+    <if test="relatedPONumber!=null and relatedPONumber!=''" >
+     and p.packinglist_relatedPONumber=#{relatedPONumber}
+    </if>
+    <if test="packingType!=null and packingType!=''" >
+     and p.packinglist_packingType=#{packingType}
+    </if>
+    <if test="carrierName!=null and carrierName!=''" >
+     and p.packinglist_carrierName=#{carrierName}
+    </if>
+    <if test="carrierId!=null and carrierId!=''" >
+     and p.packinglist_carrierId=#{carrierId}
+    </if>
+    <if test="leavefirsttime!=null and leavefirsttime!=''" >
+     and p.packinglist_leavefirsttime=#{leavefirsttime}
+    </if>
+    <if test="leavefirstweight!=null and leavefirstweight!=''" >
+     and p.packinglist_leavefirstweight=#{leavefirstweight}
+    </if>
+    <if test="leavesecondtime!=null and leavesecondtime!=''" >
+     and p.packinglist_leavesecondtime=#{leavesecondtime}
+    </if>
+    <if test="leavesecondweight!=null and leavesecondweight!=''" >
+     and p.packinglist_leavesecondweight=#{leavesecondweight}
+    </if>
+    <if test="(leavedDateStart!=null and leavedDateStart!='')or(leavedDateEnd!=null and leavedDateEnd!='')" >
+     and p.packinglist_leavedDate between #{leavedDateStart} and #{leavedDateEnd}
+    </if>
+    <if test="(reachedDateStart!=null and reachedDateStart!='')or(reachedDateEnd!=null and reachedDateEnd!='')" >
+     and p.packinglist_reachedDate between #{reachedDateStart} and #{reachedDateEnd}
+    </if>
+    <if test="driverName!=null and driverName!=''" >
+     and p.packinglist_driverName=#{driverName}
+    </if>
+    <if test="driverId!=null and driverId!=''" >
+     and p.packinglist_driverId=#{driverId}
+    </if>
+    <if test="weight!=null and weight!=''" >
+     and p.packinglist_weight=#{weight}
+    </if>
+    <if test="emptyCarWeight!=null and emptyCarWeight!=''" >
+     and p.packinglist_emptyCarWeight=#{emptyCarWeight}
+    </if>
+    <if test="carWeight!=null and carWeight!=''" >
+     and p.packinglist_carWeight=#{carWeight}
+    </if>
+    <if test="qualityId!=null and qualityId!=''" >
+     and p.packinglist_qualityId=#{qualityId}
+    </if>
+    <if test="salesPONumber!=null and salesPONumber!=''" >
+     and p.packinglist_salesPONumber=#{salesPONumber}
+    </if>
+    <if test="purchasePONumber!=null and purchasePONumber!=''" >
+     and p.packinglist_purchasePONumber=#{purchasePONumber}
+    </if>
+
+
+  </select>
+ 
+ 
+ <select id="SelectQualityInfoByObject" resultMap="qualityinfoResultMap" parameterType="com.enn.commodity.synergistic.entity.QualityInfo">
+     SELECT *
+     FROM qualityinfo q
+    
+     WHERE 1=1
+     <if test="id!=null and id!=''" >
+     and q.billoflading_id=#{id}
+    </if>
+    <if test="name!=null and name!=''" >
+     and q.billoflading_name=#{name}
+    </if>
+    <if test="version!=null and version!=''" >
+     and q.billoflading_version=#{version}
+    </if>
+    <if test="comments!=null and comments!=''" >
+     and q.billoflading_comments=#{comments}
+    </if>
+    <if test="organizationId!=null and organizationId!=''" >
+     and q.billoflading_organizationId=#{organizationId}
+    </if>
+    <if test="organizationName!=null and organizationName!=''" >
+     and q.billoflading_organizationName=#{organizationName}
+    </if>
+    <if test="userId!=null and userId!=''" >
+     and q.billoflading_userId=#{userId}
+    </if>
+    <if test="userName!=null and userName!=''" >
+     and q.billoflading_userName=#{userName}
+    </if>
+    <if test="privateId!=null and privateId!=''" >
+     and q.billoflading_privateId=#{privateId}
+    </if>
+    <if test="dataType!=null and dataType!=''" >
+     and q.billoflading_dataType=#{dataType}
+    </if>
+    <if test="goodsType!=null and goodsType!=''" >
+     and q.billoflading_goodsType=#{goodsType}
+    </if>
+    <if test="dataSourceId!=null and dataSourceId!=''" >
+     and q.billoflading_dataSourceId=#{dataSourceId}
+    </if>
+    <if test="dataSourceName!=null and dataSourceName!=''" >
+     and q.billoflading_dataSourceName=#{dataSourceName}
+    </if>
+    <if test="validator!=null and validator!=''" >
+     and q.qualityinfo_validator=#{validator}
+    </if>
+    <if test="validatorName!=null and validatorName!=''" >
+     and q.qualityinfo_validatorName=#{validatorName}
+    </if>
+    <if test="qualityDate!=null and qualityDate!=''" >
+     and q.qualityinfo_qualityDate=#{qualityDate}
+    </if>
+    <if test="serialNumber!=null and serialNumber!=''" >
+     and q.qualityinfo_serialNumber=#{serialNumber}
+    </if>
+    <if test="quality!=null and quality!=''" >
+     and q.qualityinfo_quality=#{quality}
+    </if>
+    <if test="productId!=null and productId!=''" >
+     and q.qualityinfo_productId=#{productId}
+    </if>
+    <if test="plateNo!=null and plateNo!=''" >
+     and q.qualityinfo_plateNo=#{plateNo}
+    </if>
+    <if test="orgname!=null and orgname!=''" >
+     and q.qualityinfo_orgname=#{orgname}
+    </if>
+    <if test="productName!=null and productName!=''" >
+     and q.qualityinfo_productName=#{productName}
+    </if>
+    <if test="qualityType!=null and qualityType!=''" >
+     and q.qualityinfo_qualityType=#{qualityType}
+    </if>
+    <if test="orgId!=null and orgId!=''" >
+     and q.qualityinfo_orgId=#{orgId}
+    </if>
+    <if test="reportQualityDate!=null and reportQualityDate!=''" >
+     and q.qualityinfo_reportQualityDate=#{reportQualityDate}
+    </if>
+    <if test="source!=null and source!=''" >
+     and q.qualityinfo_source=#{source}
+    </if>
+    
+
+  </select>
+  
+  
+  <insert id="CreatePackingList"  keyColumn="packinglist_id" parameterType="com.enn.commodity.synergistic.entity.PackingList">
+    insert into packinglist 
+    (packinglist_id,packinglist_version,packinglist_name,packinglist_comments,packinglist_organizationId,packinglist_organizationName,
+    packinglist_userId,packinglist_userName,packinglist_privateId,packinglist_dataType,packinglist_goodsType,packinglist_dataSourceId,packinglist_dataSourceName,packinglist_buyerId,packinglist_buyerName,packinglist_sellerId,packinglist_sellerName,packinglist_quantity,packinglist_quantityUnit,packinglist_plateNo,packinglist_billOfLadingId,packinglist_productId,packinglist_productName,packinglist_source,packinglist_destination,packinglist_date,packinglist_relatedPONumber,packinglist_packingType,packinglist_carrierName,packinglist_carrierId,packinglist_leavefirsttime,packinglist_leavefirstweight,packinglist_leavesecondtime,packinglist_leavesecondweight,packinglist_leavedDate,packinglist_reachedDate,packinglist_driverName,packinglist_driverId,packinglist_weight,packinglist_emptyCarWeight,packinglist_carWeight,packinglist_qualityId,packinglist_salesPONumber,packinglist_purchasePONumber) 
+    values
+    (#{id},#{version},#{name},#{comments},#{organizationId},#{organizationName},#{userId},
+    #{userName},#{privateId},#{dataType},#{goodsType},#{dataSourceId},#{dataSourceName},#{buyerId},#{buyerName},#{sellerId},#{sellerName},#{quantity},
+    #{quantityUnit},#{plateNo},#{billOfLadingId},#{productId},#{productName},#{source},#{destination},#{date},#{relatedPONumber},#{packingType},#{carrierName},#{carrierId},#{leavefirsttime},#{leavefirstweight},#{leavesecondtime},#{leavesecondweight},#{leavedDate},#{reachedDate},#{driverName},#{driverId},#{weight},#{emptyCarWeight},#{carWeight},#{qualityId},#{salesPONumber},#{purchasePONumber})
+  </insert>
+  
+  
+ <insert id="CreateQualityInfo"  keyColumn="qualityinfo_id" parameterType="com.enn.commodity.synergistic.entity.QualityInfo">
+    insert into qualityinfo 
+    (qualityinfo_id,qualityinfo_version,qualityinfo_name,qualityinfo_comments,qualityinfo_organizationId,qualityinfo_organizationName,
+    qualityinfo_userId,qualityinfo_userName,qualityinfo_privateId,qualityinfo_dataType,qualityinfo_goodsType,qualityinfo_dataSourceId,qualityinfo_dataSourceName,qualityinfo_validator,qualityinfo_validatorName,qualityinfo_qualityDate,qualityinfo_serialNumber,qualityinfo_quality,qualityinfo_productId,qualityinfo_plateNo,qualityinfo_orgname,qualityinfo_productName,qualityinfo_qualityType,qualityinfo_orgId,qualityinfo_reportQualityDate,qualityinfo_source)
+    values
+    (#{id},#{version},#{name},#{comments},#{organizationId},#{organizationName},#{userId},
+    #{userName},#{privateId},#{dataType},#{goodsType},#{dataSourceId},#{dataSourceName},#{validator},#{validatorName},#{qualityDate},#{serialNumber},#{quality},
+    #{productId},#{plateNo},#{orgname},#{productName},#{qualityType},#{orgId},#{reportQualityDate},#{source})
+  </insert>
+  <!-- <select id="queryAresById" resultType="com.yaw.demo.entity.Area">
+     SELECT areaId,areaName,priority,createTime,lastEditTime
+     FROM area
+     WHERE areaId=#{areaId}
+  </select>
+  
+  <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="areaId" parameterType="com.yaw.demo.entity.Area">
+    insert into area (areaName,priority,createTime,lastEditTime) values(#{areaName},#{priority},#{createTime},#{lastEditTime})
+  </insert>
+  
+  
+  
+  <delete id="deleteArea">
+     DELETE FROM
+     area
+     WHERE
+     areaId=#{areaId}
+  </delete> -->
+</mapper>

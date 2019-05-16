@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.enn.commodity.synergistic.dao.RelationInfoDao" >  
+
+  <resultMap type="com.enn.commodity.synergistic.entity.RelationInfo" id="relationinfoResultMap">
+		<id property="id" column="relationinfo_id"/>
+		<result property="version" column="relationinfo_version"/>
+		<result property="name" column="relationinfo_name"/>
+		<result property="comments" column="relationinfo_comments"/>
+		<result property="organizationId" column="relationinfo_organizationId"/>
+		<result property="organizationName" column="relationinfo_organizationName"/>
+		<result property="userId" column="relationinfo_userId"/>
+		<result property="userName" column="relationinfo_userName"/>
+		<result property="privateId" column="relationinfo_privateId"/>
+		<result property="dataType" column="relationinfo_dataType"/>
+		<result property="goodsType" column="relationinfo_goodsType"/>
+		<result property="ownerId" column="relationinfo_ownerId"/>
+		<result property="ownerName" column="relationinfo_ownerName"/>
+		<result property="friendId" column="relationinfo_friendId"/>
+		<result property="friendName" column="relationinfo_friendName"/>
+		<result property="status" column="relationinfo_status"/>
+		<result property="issuedDate" column="relationinfo_issuedDate"/>
+		<result property="expiredDate" column="relationinfo_expiredDate"/>
+		<result property="reason" column="relationinfo_reason"/>
+
+		
+	</resultMap>
+
+
+
+       
+
+
+        
+
+ <select id="SelectRelationInfoByObject" resultMap="relationinfoResultMap" parameterType="com.enn.commodity.synergistic.entity.RelationInfo">
+     SELECT *
+     FROM relationinfo
+     WHERE 1=1
+     <if test="ownerId!=null and ownerId!=''" >
+     and relationinfo_ownerId=#{ownerId}
+    </if>
+    <if test="ownerName!=null and ownerName!=''" >
+     and relationinfo_ownerName=#{ownerName}
+    </if>
+    <if test="friendId!=null and friendId!=''" >
+     and relationinfo_friendId=#{friendId}
+    </if>
+    <if test="friendName!=null and friendName!=''" >
+     and relationinfo_friendName=#{friendName}
+    </if>
+    <if test="status!=null and status!=''" >
+     and relationinfo_status=#{status}
+    </if>
+    <if test="issuedDate!=null and issuedDate!=''" >
+     and relationinfo_issuedDate=#{issuedDate}
+    </if>
+    <if test="expiredDate!=null and expiredDate!=''" >
+     and relationinfo_expiredDate=#{expiredDate}
+    </if>
+    <if test="reason!=null and reason!=''" >
+     and relationinfo_reason=#{reason}
+    </if>
+   
+
+  </select>
+ 
+ 
+ <insert id="CreateRelationInfo"  keyColumn="relationinfo_id" parameterType="com.enn.commodity.synergistic.entity.RelationInfo">
+    insert into relationinfo 
+    (relationinfo_id,relationinfo_version,relationinfo_name,relationinfo_comments,relationinfo_organizationId,relationinfo_organizationName,
+    relationinfo_userId,relationinfo_userName,relationinfo_privateId,relationinfo_dataType,relationinfo_goodsType,relationinfo_ownerId,
+    relationinfo_ownerName,relationinfo_friendId,relationinfo_friendName,relationinfo_status,relationinfo_issuedDate,relationinfo_expiredDate,
+    relationinfo_reason) 
+    values
+    (#{id},#{version},#{name},#{comments},#{organizationId},#{organizationName},#{userId},
+    #{userName},#{privateId},#{dataType},#{goodsType},#{ownerId},#{ownerName},#{friendId},#{friendName},#{status},
+    #{issuedDate},#{expiredDate},#{reason})
+  </insert>
+ 
+ 
+ <update id="UpdateRelationInfo" parameterType="com.enn.commodity.synergistic.entity.RelationInfo">
+     UPDATE relationinfo
+     <set>
+       
+       <if test="status!=null">relationinfo_status=#{status},</if>
+       <if test="expiredDate!=null">relationinfo_expiredDate=#{expiredDate},</if>
+       <if test="reason!=null">relationinfo_reason=#{reason}</if>
+     </set>
+     WHERE relationinfo_id=#{id}
+  </update>
+  <!-- <select id="queryAresById" resultType="com.yaw.demo.entity.Area">
+     SELECT areaId,areaName,priority,createTime,lastEditTime
+     FROM area
+     WHERE areaId=#{areaId}
+  </select>
+  
+  <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="areaId" parameterType="com.yaw.demo.entity.Area">
+    insert into area (areaName,priority,createTime,lastEditTime) values(#{areaName},#{priority},#{createTime},#{lastEditTime})
+  </insert>
+  
+  
+  
+  <delete id="deleteArea">
+     DELETE FROM
+     area
+     WHERE
+     areaId=#{areaId}
+  </delete> -->
+</mapper>
